@@ -923,10 +923,12 @@ class VictronBle : public esp32_ble_tracker::ESPBTDeviceListener, public Compone
     if (this->address_ == 0) {
       return "";
     } else {
-      return str_snprintf("%02X:%02X:%02X:%02X:%02X:%02X", 17, (uint8_t) (this->address_ >> 40) & 0xff,
-                          (uint8_t) (this->address_ >> 32) & 0xff, (uint8_t) (this->address_ >> 24) & 0xff,
-                          (uint8_t) (this->address_ >> 16) & 0xff, (uint8_t) (this->address_ >> 8) & 0xff,
-                          (uint8_t) (this->address_ >> 0) & 0xff);
+      char buf[18];
+      snprintf(buf, sizeof(buf), "%02X:%02X:%02X:%02X:%02X:%02X", (uint8_t) (this->address_ >> 40) & 0xff,
+               (uint8_t) (this->address_ >> 32) & 0xff, (uint8_t) (this->address_ >> 24) & 0xff,
+               (uint8_t) (this->address_ >> 16) & 0xff, (uint8_t) (this->address_ >> 8) & 0xff,
+               (uint8_t) (this->address_ >> 0) & 0xff);
+      return std::string(buf);
     }
   }
 
